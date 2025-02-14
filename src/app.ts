@@ -1,15 +1,31 @@
 import express from "express";
-import cors from "cors"
+import cors from "cors";
+import { config } from "dotenv";
+
+import { connectToDatabase } from "./configs";
+import { rootRouter } from "./routes";
+import { ErrorWithStatusCode } from "./utils/error.util";
+
+config();
 
 const app = express();
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
-app.use("/", )
+app.use("/", rootRouter);
 
-app.listen(process.env.PORT, () => {
-  console.log(
-    `ContainRX daemon server start successfully on port ${process.env.PORT}`
-  );
-});
+connectToDatabase()
+  .then(() => {
+
+    console.log("Connected to database");
+
+    app.listen(process.env.PORT, () => {
+      console.log(
+        `ContainRX server start successfully on port ${process.env.PORT}`
+      );
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });

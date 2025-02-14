@@ -5,6 +5,11 @@
   "repository": "https://github.com/shaasium/containrx.git",
   "author": "Tanmay Vaij <tanmayvaij22@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node ./dist/app.js",
+    "dev": "nodemon ./src/app.ts",
+    "build": "tsc -p ."
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "dockerode": "^4.0.4",

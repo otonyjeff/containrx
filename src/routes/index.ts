@@ -1,5 +1,6 @@
-import { Router } from "express"
+import { Router } from "express";
+import { authRouter } from "./auth.routes";
 
-const rootRouter = Router()
+export const rootRouter = Router();
 
-rootRouter.use("/")
+rootRouter.use("/auth", authRouter);
