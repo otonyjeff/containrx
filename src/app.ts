@@ -4,7 +4,6 @@ import { config } from "dotenv";
 
 import { connectToDatabase } from "./configs";
 import { rootRouter } from "./routes";
-import { ErrorWithStatusCode } from "./utils/error.util";
 
 config();
 

@@ -1,12 +1,24 @@
-import { UserModel } from "../models"
-import { ErrorWithStatusCode } from "../utils/error.util"
+import { UserModel } from "../models";
+import { ErrorWithStatusCode } from "../utils";
 
-export const signUpService = async (email: string, password: string, confirmPassword: string) => {
+export const signUpService = async (
+  email: string,
+  password: string,
+  confirmPassword: string
+): Promise<SignUpServiceResponse> => {
+  if (await UserModel.findOne({ email }))
+    return {
+      err: new ErrorWithStatusCode("User with given email already exists", 409),
+      data: null,
+    };
 
-    // const userExists = await UserModel.findOne({ email })
+  if (password !== confirmPassword)
+    return {
+      err: new ErrorWithStatusCode("Passwords mismatch", 400),
+      data: null,
+    };
 
-    // if (userExists) {
-        const err =  new ErrorWithStatusCode("User with given email already exists", 409)
-    // }
+  const createdUser = await UserModel.create({ email, password });
 
-}
+  return { err: null, data: { userId: createdUser._id.toString() } };
+};
