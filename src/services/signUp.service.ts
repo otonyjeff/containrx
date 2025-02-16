@@ -1,11 +1,20 @@
+import { AuthServiceResponse } from "../../types";
 import { UserModel } from "../models";
 import { ErrorWithStatusCode } from "../utils";
+import { sign } from "jsonwebtoken";
+import { genSalt, hash } from "bcrypt";
 
 export const signUpService = async (
   email: string,
   password: string,
   confirmPassword: string
-): Promise<SignUpServiceResponse> => {
+): Promise<AuthServiceResponse> => {
+  if (!email || !password || !confirmPassword)
+    return {
+      err: new ErrorWithStatusCode("Invalid credentials", 400),
+      data: null,
+    };
+
   if (await UserModel.findOne({ email }))
     return {
       err: new ErrorWithStatusCode("User with given email already exists", 409),
@@ -18,7 +27,19 @@ export const signUpService = async (
       data: null,
     };
 
-  const createdUser = await UserModel.create({ email, password });
+  const salt = await genSalt(12);
 
-  return { err: null, data: { userId: createdUser._id.toString() } };
+  const hashedPassword = await hash(password, salt);
+
+  const createdUser = await UserModel.create({
+    email,
+    password: hashedPassword,
+  });
+
+  const token = sign(
+    { userId: createdUser._id.toString() },
+    process.env.SECRET_KEY!
+  );
+
+  return { err: null, data: { token } };
 };

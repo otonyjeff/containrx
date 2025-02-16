@@ -4,9 +4,9 @@ import { signUpService } from "../services";
 export const signUpController = async (req: Request, res: Response) => {
   const { email, password, confirmPassword } = req.body;
 
-  const result = await signUpService(email, password, confirmPassword)
+  const { err, data } = await signUpService(email, password, confirmPassword);
 
+  if (err) res.status(err.statusCode).json({ err: err.message });
   
-
-  res.json({});
+  else res.json(data);
 };
