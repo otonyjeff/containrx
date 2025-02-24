@@ -8,7 +8,6 @@ export const UserModel = model(
       type: String,
       unique: true,
     },
-
     password: {
       required: true,
       type: String,
