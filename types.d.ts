@@ -1,6 +1,10 @@
 import { ErrorWithStatusCode } from "./src/utils";
 
-interface AuthServiceResponse {
+interface ServiceResponse {
   err: ErrorWithStatusCode | null;
-  data: { token: string } | null;
+  data: Object | null;
+}
+
+interface AuthServiceResponse extends ServiceResponse {
+  data: { token: string } | null
 }

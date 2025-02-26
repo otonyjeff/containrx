@@ -1,6 +1,6 @@
-import { AuthServiceResponse } from "../../types";
-import { UserModel } from "../models";
-import { ErrorWithStatusCode } from "../utils";
+import { AuthServiceResponse } from "../../../types";
+import { UserModel } from "../../models";
+import { ErrorWithStatusCode } from "../../utils";
 import { sign } from "jsonwebtoken";
 import { genSalt, hash } from "bcrypt";
 
@@ -12,7 +12,7 @@ export const signUpService = async (
   if (!email || !password || !confirmPassword)
     return {
       err: new ErrorWithStatusCode("Invalid credentials", 400),
-      data: null,
+      data: null
     };
 
   if (await UserModel.findOne({ email }))

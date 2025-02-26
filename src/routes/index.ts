@@ -1,9 +1,9 @@
 import { Router } from "express";
 
 import { authRouter } from "./auth.routes";
-import { dockerServiceRouter } from "./docker.routes";
+import { imageRouter } from "./image.routes";
 
 export const rootRouter = Router();
 
 rootRouter.use("/auth", authRouter);
-rootRouter.use("/docker-service", dockerServiceRouter)
+rootRouter.use("/image", imageRouter);

@@ -1,7 +1,7 @@
 import { sign } from "jsonwebtoken";
-import { AuthServiceResponse } from "../../types";
-import { UserModel } from "../models";
-import { ErrorWithStatusCode } from "../utils";
+import { AuthServiceResponse } from "../../../types";
+import { UserModel } from "../../models";
+import { ErrorWithStatusCode } from "../../utils";
 
 export const signInService = async (
   email: string,
