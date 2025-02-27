@@ -4,3 +4,4 @@ export * from "./signIn.controller";
 
 // image
 export * from "./listImages.controller";
+export * from "./removeImage.controller";
