@@ -1,8 +1,10 @@
 import { Router } from "express";
 
-import { listImagesController, removeImageController } from "../controllers";
+import { ImageManagerController } from "../controllers";
+
+const imageController = new ImageManagerController();
 
 export const imageRouter = Router();
 
-imageRouter.route("/list").get(listImagesController);
-imageRouter.route("/remove/:name").delete(removeImageController)
+imageRouter.route("/list").get(imageController.listImages);
+imageRouter.route("/remove/:name").delete(imageController.removeImage);

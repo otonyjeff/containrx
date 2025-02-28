@@ -1,8 +1,10 @@
 import { Router } from "express";
 
-import { signInController, signUpController } from "../controllers";
+import { AuthenticationController } from "../controllers";
+
+const authenticationController = new AuthenticationController();
 
 export const authRouter = Router();
 
-authRouter.route("/sign-up").post(signUpController);
-authRouter.route("/sign-in").post(signInController);
+authRouter.route("/sign-up").post(authenticationController.signUp);
+authRouter.route("/sign-in").post(authenticationController.signIn);

@@ -1,7 +1,3 @@
-// auth
-export * from "./signUp.controller";
-export * from "./signIn.controller";
+export * from "./Authentication.controller";
 
-// image
-export * from "./listImages.controller";
-export * from "./removeImage.controller";
+export * from "./ImageManager.controller";
