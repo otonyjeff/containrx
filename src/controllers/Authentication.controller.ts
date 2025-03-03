@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import { AuthenticationService } from "../services";
+import { BaseController } from "./Base.controller";
 
-export class AuthenticationController {
+export class AuthenticationController extends BaseController {
   private authenticationService: AuthenticationService;
 
   constructor() {
+    super();
     this.authenticationService = new AuthenticationService();
   }
 
@@ -17,8 +19,7 @@ export class AuthenticationController {
       confirmPassword
     );
 
-    if (err) res.status(err.statusCode).json({ err: err.message });
-    else res.json(data);
+    this.handleResponse(res, err, data);
   }
 
   async signIn(req: Request, res: Response) {
@@ -29,7 +30,6 @@ export class AuthenticationController {
       password
     );
 
-    if (err) res.status(err.statusCode).json({ err: err.message });
-    else res.json(data);
+    this.handleResponse(res, err, data);
   }
 }
