@@ -13,23 +13,17 @@ export class AuthenticationController extends BaseController {
   async signUp(req: Request, res: Response) {
     const { email, password, confirmPassword } = req.body;
 
-    const { err, data } = await this.authenticationService.signUp(
-      email,
-      password,
-      confirmPassword
+    this.handleResponse(
+      res,
+      await this.authenticationService.signUp(email, password, confirmPassword)
     );
-
-    this.handleResponse(res, err, data);
   }
 
   async signIn(req: Request, res: Response) {
     const { email, password } = req.body;
-
-    const { err, data } = await this.authenticationService.signIn(
-      email,
-      password
+    this.handleResponse(
+      res,
+      await this.authenticationService.signIn(email, password)
     );
-
-    this.handleResponse(res, err, data);
   }
 }

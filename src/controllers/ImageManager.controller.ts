@@ -11,15 +11,13 @@ export class ImageManagerController extends BaseController {
   }
 
   async listImages(_: Request, res: Response) {
-    const { err, data } = await this.imageManageService.listImages();
-    this.handleResponse(res, err, data);
+    this.handleResponse(res, await this.imageManageService.listImages());
   }
 
   async removeImage(req: Request, res: Response) {
-    const { err, data } = await this.imageManageService.removeImage(
-      req.params.name
+    this.handleResponse(
+      res,
+      await this.imageManageService.removeImage(req.params.name)
     );
-
-    this.handleResponse(res, err, data);
   }
 }
