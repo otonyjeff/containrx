@@ -5,11 +5,11 @@ import { ErrorWithStatusCode } from "../utils";
 import { sign } from "jsonwebtoken";
 
 export class AuthenticationService {
-  async signUp(
+  signUp = async (
     email: string,
     password: string,
     confirmPassword: string
-  ): Promise<AuthServiceResponse> {
+  ): Promise<AuthServiceResponse> => {
     if (!email || !password || !confirmPassword)
       return {
         err: new ErrorWithStatusCode("Invalid credentials", 400),
@@ -46,12 +46,12 @@ export class AuthenticationService {
     );
 
     return { err: null, data: { token } };
-  }
+  };
 
-  async signIn(
+  signIn = async (
     email: string,
     password: string
-  ): Promise<AuthServiceResponse> {
+  ): Promise<AuthServiceResponse> => {
     if (!email || !password)
       return {
         err: new ErrorWithStatusCode("Invalid credentials", 400),
@@ -78,5 +78,5 @@ export class AuthenticationService {
       err: null,
       data: { token },
     };
-  }
+  };
 }

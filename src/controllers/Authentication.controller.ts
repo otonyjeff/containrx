@@ -10,20 +10,20 @@ export class AuthenticationController extends BaseController {
     this.authenticationService = new AuthenticationService();
   }
 
-  async signUp(req: Request, res: Response) {
+  signUp = async (req: Request, res: Response) => {
     const { email, password, confirmPassword } = req.body;
 
     this.handleResponse(
       res,
       await this.authenticationService.signUp(email, password, confirmPassword)
     );
-  }
+  };
 
-  async signIn(req: Request, res: Response) {
+  signIn = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     this.handleResponse(
       res,
       await this.authenticationService.signIn(email, password)
     );
-  }
+  };
 }

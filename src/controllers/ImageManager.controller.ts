@@ -3,21 +3,28 @@ import { ImageManagerService } from "../services";
 import { BaseController } from "./Base.controller";
 
 export class ImageManagerController extends BaseController {
-  private imageManageService: ImageManagerService;
+  private readonly imageManageService: ImageManagerService;
 
   constructor() {
     super();
     this.imageManageService = new ImageManagerService();
   }
 
-  async listImages(_: Request, res: Response) {
-    this.handleResponse(res, await this.imageManageService.listImages());
-  }
+  pullImage = async (req: Request, res: Response) => {
+    this.handleResponse(
+      res,
+      await this.imageManageService.pullImage(req.params.name)
+    );
+  };
 
-  async removeImage(req: Request, res: Response) {
+  listImages = async (_: Request, res: Response) => {
+    this.handleResponse(res, await this.imageManageService.listImages());
+  };
+
+  removeImage = async (req: Request, res: Response) => {
     this.handleResponse(
       res,
       await this.imageManageService.removeImage(req.params.name)
     );
-  }
+  };
 }
