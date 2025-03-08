@@ -12,7 +12,6 @@ export class AuthenticationController extends BaseController {
 
   signUp = async (req: Request, res: Response) => {
     const { email, password, confirmPassword } = req.body;
-
     this.handleResponse(
       res,
       await this.authenticationService.signUp(email, password, confirmPassword)

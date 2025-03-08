@@ -1,15 +1,15 @@
 import { genSalt, hash } from "bcrypt";
-import { AuthServiceResponse } from "../../types";
 import { UserModel } from "../models";
 import { ErrorWithStatusCode } from "../utils";
 import { sign } from "jsonwebtoken";
+import { AuthServiceResponse, ServiceResponse } from "../../types";
 
 export class AuthenticationService {
   signUp = async (
     email: string,
     password: string,
     confirmPassword: string
-  ): Promise<AuthServiceResponse> => {
+  ): Promise<ServiceResponse> => {
     if (!email || !password || !confirmPassword)
       return {
         err: new ErrorWithStatusCode("Invalid credentials", 400),
@@ -35,17 +35,12 @@ export class AuthenticationService {
 
     const hashedPassword = await hash(password, salt);
 
-    const createdUser = await UserModel.create({
+    const { email: registeredEmail, _id } = await UserModel.create({
       email,
       password: hashedPassword,
     });
 
-    const token = sign(
-      { userId: createdUser._id.toString() },
-      process.env.SECRET_KEY!
-    );
-
-    return { err: null, data: { token } };
+    return { err: null, data: { _id, email: registeredEmail } };
   };
 
   signIn = async (
@@ -70,7 +65,7 @@ export class AuthenticationService {
       };
 
     const token = sign(
-      { userId: userExists._id.toString() },
+      { userId: userExists._id.toString(), email: userExists.email },
       process.env.SECRET_KEY!
     );
 
