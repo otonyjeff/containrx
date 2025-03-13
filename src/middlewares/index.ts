@@ -15,10 +15,10 @@ export class Middlewares {
       }
 
       const token = authHeader!.split(" ")[1];
-
+      
       req.user = verify(
         token,
-        process.env.FLEXIBASE_AUTH_SECRET_KEY!
+        process.env.SECRET_KEY!
       ) as JwtPayload;
 
       next();
