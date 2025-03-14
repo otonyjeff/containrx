@@ -5,7 +5,17 @@ import { ErrorWithStatusCode } from "../utils";
 export class ImageManagerService {
   async pullImage(imageName: string): Promise<ServiceResponse> {
     try {
-      await dockerApi.pull(imageName);
+      const stream = await dockerApi.pull(imageName);
+      await new Promise((resolve, reject) => {
+        dockerApi.modem.followProgress(stream, (err, output) => {
+          if (err) {
+            reject(new ErrorWithStatusCode(`Image pull failed: ${err}`, 500));
+          } else {
+            resolve(output);
+          }
+        });
+      });
+
       return {
         err: null,
         data: { message: "image pulled" },
