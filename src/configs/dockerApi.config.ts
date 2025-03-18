@@ -1,6 +1,6 @@
 import Docker from "dockerode";
 
 export const dockerApi = new Docker({
-  host: "127.0.0.1",
+  host: process.env.DOCKER_ENGINE_HOST,
   port: "2375",
 });
