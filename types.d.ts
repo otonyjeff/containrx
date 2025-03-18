@@ -1,13 +1,17 @@
 import { JwtPayload } from "jsonwebtoken";
 import { ErrorWithStatusCode } from "./src/utils";
+import { HostConfig } from "dockerode";
 
 interface ServiceResponse {
   err: ErrorWithStatusCode | null;
   data: Object | null;
 }
 
-interface AuthServiceResponse extends ServiceResponse {
-  data: { token: string } | null
+interface ContainerCreationProps {
+  Image: string;
+  name?: string;
+  Cmd?: string[];
+  HostConfig?: HostConfig;
 }
 
 declare global {
