@@ -22,7 +22,7 @@ export class ImageManagerService {
       };
     } catch (err) {
       return {
-        err: new ErrorWithStatusCode(`Internal server error, ${err}`, 500),
+        err: new ErrorWithStatusCode(`Internal server error, ${err}`, 500), 
         data: null,
       };
     }
