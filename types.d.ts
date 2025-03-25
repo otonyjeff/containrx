@@ -1,6 +1,6 @@
 import { JwtPayload } from "jsonwebtoken";
 import { ErrorWithStatusCode } from "./src/utils";
-import { HostConfig } from "dockerode";
+import Dockerode, { HostConfig } from "dockerode";
 
 interface ServiceResponse {
   err: ErrorWithStatusCode | null;
@@ -10,8 +10,8 @@ interface ServiceResponse {
 interface ContainerCreationProps {
   Image: string;
   name?: string;
-  Cmd?: string[];
   HostConfig?: HostConfig;
+  ExposedPorts?: Dockerode.ContainerCreateOptions.ExposedPorts
 }
 
 declare global {

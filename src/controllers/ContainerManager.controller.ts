@@ -11,9 +11,36 @@ export class ContainerManagerController extends BaseController {
   }
 
   createContainer = async (req: Request, res: Response) => {
+    const PortBindings = req.body.portMappings.reduce(
+      (
+        acc: { [x: string]: {}[] },
+        curr: { containerPort: any; hostPort: any }
+      ) => {
+        acc[`${curr.containerPort}/tcp`] = [{ HostPort: curr.hostPort }];
+        return acc;
+      },
+      {}
+    );
+
+    const ExposedPorts = req.body.portMappings.reduce(
+      (
+        acc: { [x: string]: {} },
+        curr: { containerPort: any; hostPort: any }
+      ) => {
+        acc[`${curr.containerPort}/tcp`] = {};
+        return acc;
+      },
+      {}
+    );
+    
     this.handleResponse(
       res,
-      await this.containerManagerService.createContainer(req.body)
+      await this.containerManagerService.createContainer({
+        Image: `${req.body.imageName}:${req.body.imageTag}`,
+        name: req.body.name,
+        HostConfig: { PortBindings },
+        ExposedPorts,
+      })
     );
   };
 }
