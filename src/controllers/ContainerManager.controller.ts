@@ -10,6 +10,13 @@ export class ContainerManagerController extends BaseController {
     this.containerManagerService = new ContainerManagerService();
   }
 
+  listContainers = async (_: Request, res: Response) => {
+    this.handleResponse(
+      res,
+      await this.containerManagerService.listContainers()
+    );
+  };
+
   createContainer = async (req: Request, res: Response) => {
     const PortBindings = req.body.portMappings.reduce(
       (
@@ -32,7 +39,7 @@ export class ContainerManagerController extends BaseController {
       },
       {}
     );
-    
+
     this.handleResponse(
       res,
       await this.containerManagerService.createContainer({

@@ -12,4 +12,4 @@ const middleware = new Middlewares();
 
 rootRouter.use("/auth", authRouter);
 rootRouter.use("/image", middleware.tokenVerifier, imageRouter);
-rootRouter.use("/container", containerRouter);
+rootRouter.use("/container", middleware.tokenVerifier, containerRouter);
