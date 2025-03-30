@@ -6,7 +6,7 @@ export class ContainerManagerService {
   listContainers = async (): Promise<ServiceResponse> => {
     try {
       const containers = await dockerApi.listContainers({ all: true });
-      
+
       return { data: { containers }, err: null };
     } catch (err) {
       return {
@@ -32,4 +32,36 @@ export class ContainerManagerService {
       };
     }
   };
-}
+
+  pauseContainer = async (containerId: string): Promise<ServiceResponse> => {
+    try {
+      const container = dockerApi.getContainer(containerId);
+      await container.pause();
+      return {
+        data: containerId,
+        err: null,
+      };
+    } catch (err) {
+      return {
+        data: null,
+        err: new ErrorWithStatusCode(`Internal server error, ${err}`, 500),
+      };
+    }
+  };
+
+  unpauseContainer = async (containerId: string): Promise<ServiceResponse> => {
+    try {
+      const container = dockerApi.getContainer(containerId);
+      await container.unpause();
+      return {
+        data: containerId,
+        err: null,
+      };
+    } catch (err) {
+      return {
+        data: null,
+        err: new ErrorWithStatusCode(`Internal server error, ${err}`, 500),
+      };
+    }
+  };
+} 
