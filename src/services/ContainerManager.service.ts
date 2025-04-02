@@ -64,4 +64,37 @@ export class ContainerManagerService {
       };
     }
   };
+
+  stopContainer = async (containerId: string): Promise<ServiceResponse> => {
+    try {
+      const container = dockerApi.getContainer(containerId);
+      await container.stop();
+      return {
+        data: containerId,
+        err: null,
+      };
+    } catch (err) {
+      return {
+        data: null,
+        err: new ErrorWithStatusCode(`Internal server error, ${err}`, 500),
+      };
+    }
+  };
+
+  resumeContainer = async (containerId: string): Promise<ServiceResponse> => {
+    try {
+      const container = dockerApi.getContainer(containerId);
+      await container.start();
+      return {
+        data: containerId,
+        err: null,
+      };
+    } catch (err) {
+      return {
+        data: null,
+        err: new ErrorWithStatusCode(`Internal server error, ${err}`, 500),
+      };
+    }
+  };
+
 } 

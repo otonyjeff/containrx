@@ -31,6 +31,20 @@ export class ContainerManagerController extends BaseController {
     );
   };
 
+  stopContainer = async (req: Request, res: Response) => {
+    this.handleResponse(
+      res,
+      await this.containerManagerService.stopContainer(req.body.containerId)
+    );
+  };
+
+  resumeContainer = async (req: Request, res: Response) => {
+    this.handleResponse(
+      res,
+      await this.containerManagerService.resumeContainer(req.body.containerId)
+    );
+  };
+
   createContainer = async (req: Request, res: Response) => {
     const PortBindings = req.body.portMappings.reduce(
       (
