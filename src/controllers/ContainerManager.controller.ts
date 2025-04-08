@@ -45,6 +45,13 @@ export class ContainerManagerController extends BaseController {
     );
   };
 
+  removeContainer = async (req: Request, res: Response) => {
+    this.handleResponse(
+      res,
+      await this.containerManagerService.removeContainer(req.body.containerId)
+    );
+  };
+
   createContainer = async (req: Request, res: Response) => {
     const PortBindings = req.body.portMappings.reduce(
       (
@@ -68,6 +75,12 @@ export class ContainerManagerController extends BaseController {
       {}
     );
 
+    const envs = (req.body.env as { key: string; value: string }[]).map(
+      ({ key, value }) => {
+        return `${key}=${value}`;
+      }
+    );
+
     this.handleResponse(
       res,
       await this.containerManagerService.createContainer({
@@ -75,6 +88,7 @@ export class ContainerManagerController extends BaseController {
         name: req.body.name,
         HostConfig: { PortBindings },
         ExposedPorts,
+        Env: envs.length > 0 ? envs : undefined,
       })
     );
   };

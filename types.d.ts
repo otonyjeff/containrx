@@ -11,7 +11,8 @@ interface ContainerCreationProps {
   Image: string;
   name?: string;
   HostConfig?: HostConfig;
-  ExposedPorts?: Dockerode.ContainerCreateOptions.ExposedPorts
+  ExposedPorts?: Dockerode.ContainerCreateOptions.ExposedPorts;
+  Env?: string[];
 }
 
 declare global {

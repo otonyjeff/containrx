@@ -97,4 +97,20 @@ export class ContainerManagerService {
     }
   };
 
+  removeContainer = async (containerId: string): Promise<ServiceResponse> => {
+    try {
+      const container = dockerApi.getContainer(containerId);
+      await container.remove({ force: true });
+      return {
+        data: containerId,
+        err: null,
+      };
+    } catch (err) {
+      return {
+        data: null,
+        err: new ErrorWithStatusCode(`Internal server error, ${err}`, 500),
+      };
+    }
+  };
+
 } 
