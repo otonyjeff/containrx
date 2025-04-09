@@ -42,7 +42,7 @@ export class ImageManagerService {
 
   async removeImage(name: string): Promise<ServiceResponse> {
     try {
-      await dockerApi.getImage(name).remove();
+      await dockerApi.getImage(name).remove({ force: true });
 
       return {
         err: null,
