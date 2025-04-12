@@ -86,7 +86,7 @@ export class ContainerManagerController extends BaseController {
       await this.containerManagerService.createContainer({
         Image: `${req.body.imageName}:${req.body.imageTag}`,
         name: req.body.name,
-        HostConfig: { PortBindings },
+        HostConfig: { PortBindings, NetworkMode: "containrx-network" },
         ExposedPorts,
         Env: envs.length > 0 ? envs : undefined,
       })
