@@ -1,0 +1,45 @@
+version: "3.8"
+services:
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-data:/data/db
+    restart: unless-stopped
+
+
+  # Database Service
+  containrx:
+    image: modularminds/containrx:latest
+    container_name: containrx
+    ports:
+      - ${CONTAINRX_EXPOSE_PORT}:${CONTAINRX_EXPOSE_PORT}
+    environment:
+      - PORT=${CONTAINRX_EXPOSE_PORT}
+      - MONGO_URI=mongodb://mongodb:27017/containrx
+      - SECRET_KEY=${SECRET_KEY}
+      - DOCKER_ENGINE_HOST=${DOCKER_ENGINE_HOST}
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  containrx-dashboard:
+    image: modularminds/containrx-dashboard:latest
+    container_name: containrx-dashboard
+    ports:
+      - 3000:3000
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=http://containrx:${CONTAINRX_EXPOSE_PORT}
+    depends_on:
+      - containrx
+    restart: unless-stopped
+
+volumes:
+  mongodb-data:
+
+networks:
+  default:
+    name: containrx-network
