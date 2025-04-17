@@ -4,3 +4,5 @@ Dockerfile
 .env.example
 .git
 .gitignore
+docker-compose.yaml
+.github
