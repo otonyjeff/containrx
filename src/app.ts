@@ -21,7 +21,7 @@ connectToDatabase()
 
     app.listen(process.env.CONTAINRX_EXPOSE_PORT, () => {
       console.log(
-        `ContainRX server start successfully on port ${process.env.PORT}`
+        `ContainRX server start successfully on port ${process.env.CONTAINRX_EXPOSE_PORT}`
       );
     });
   })
