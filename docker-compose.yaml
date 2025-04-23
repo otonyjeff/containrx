@@ -9,15 +9,15 @@ services:
       - mongodb-data:/data/db
     restart: unless-stopped
 
-
-  # Database Service
   containrx:
-    image: modularminds/containrx:latest
+    build:
+      context: https://github.com/shaasium/containrx.git#main
+      dockerfile: Dockerfile
     container_name: containrx
     ports:
       - ${CONTAINRX_EXPOSE_PORT}:${CONTAINRX_EXPOSE_PORT}
     environment:
-      - PORT=${CONTAINRX_EXPOSE_PORT}
+      - CONTAINRX_EXPOSE_PORT=${CONTAINRX_EXPOSE_PORT}
       - MONGO_URI=mongodb://mongodb:27017/containrx
       - SECRET_KEY=${SECRET_KEY}
       - DOCKER_ENGINE_HOST=${DOCKER_ENGINE_HOST}
@@ -26,12 +26,14 @@ services:
     restart: unless-stopped
 
   containrx-dashboard:
-    image: modularminds/containrx-dashboard:latest
+    build:
+      context: https://github.com/shaasium/containrx-dashboard.git#main
+      dockerfile: Dockerfile
+      args:
+      - NEXT_PUBLIC_BACKEND_URL=http://containrx:${CONTAINRX_EXPOSE_PORT}
     container_name: containrx-dashboard
     ports:
       - 3000:3000
-    environment:
-      - NEXT_PUBLIC_BACKEND_URL=http://localhost:5000
     depends_on:
       - containrx
     restart: unless-stopped
