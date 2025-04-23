@@ -1,5 +1,5 @@
 {
-  "name": "containrx-backend",
+  "name": "containrx-server",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/shaasium/containrx.git",
