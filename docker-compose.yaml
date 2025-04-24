@@ -9,18 +9,18 @@ services:
       - mongodb-data:/data/db
     restart: unless-stopped
 
-  containrx:
+  containrx-server:
     build:
-      context: https://github.com/shaasium/containrx.git#main
+      context: https://github.com/shaasium/containrx-server.git#main
       dockerfile: Dockerfile
-    container_name: containrx
+    container_name: containrx-server
     ports:
       - ${CONTAINRX_EXPOSE_PORT}:${CONTAINRX_EXPOSE_PORT}
     environment:
       - CONTAINRX_EXPOSE_PORT=${CONTAINRX_EXPOSE_PORT}
       - MONGO_URI=mongodb://mongodb:27017/containrx
       - SECRET_KEY=${SECRET_KEY}
-      - DOCKER_ENGINE_HOST=${DOCKER_ENGINE_HOST}
+      - DOCKER_ENGINE_URL=${DOCKER_ENGINE_URL}
     depends_on:
       - mongodb
     restart: unless-stopped
@@ -30,12 +30,12 @@ services:
       context: https://github.com/shaasium/containrx-dashboard.git#main
       dockerfile: Dockerfile
       args:
-      - NEXT_PUBLIC_BACKEND_URL=http://containrx:${CONTAINRX_EXPOSE_PORT}
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:${CONTAINRX_EXPOSE_PORT}
     container_name: containrx-dashboard
     ports:
       - 3000:3000
     depends_on:
-      - containrx
+      - containrx-server
     restart: unless-stopped
 
 volumes:
