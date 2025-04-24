@@ -11,16 +11,16 @@ services:
 
   containrx:
     build:
-      context: https://github.com/shaasium/containrx.git#main
+      context: https://github.com/shaasium/containrx-server.git#main
       dockerfile: Dockerfile
-    container_name: containrx
+    container_name: containrx-server
     ports:
       - ${CONTAINRX_EXPOSE_PORT}:${CONTAINRX_EXPOSE_PORT}
     environment:
       - CONTAINRX_EXPOSE_PORT=${CONTAINRX_EXPOSE_PORT}
       - MONGO_URI=mongodb://mongodb:27017/containrx
       - SECRET_KEY=${SECRET_KEY}
-      - DOCKER_ENGINE_HOST=${DOCKER_ENGINE_HOST}
+      - DOCKER_ENGINE_URL=${DOCKER_ENGINE_URL}
     depends_on:
       - mongodb
     restart: unless-stopped

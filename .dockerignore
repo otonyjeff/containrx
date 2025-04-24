@@ -1,8 +1,0 @@
-node_modules
-dist
-Dockerfile
-.env.example
-.git
-.gitignore
-docker-compose.yaml
-.github
